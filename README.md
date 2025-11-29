@@ -55,11 +55,6 @@ Required variables:
 5. Share that page with your integration (click "..." → "Connections" → select your integration)
 6. Copy the page ID from the URL
 
-**Pre-created Resources** (already set up):
-- Parent Page ID: `2ba30e8e-bf3c-8145-a650-cf234e960881`
-- Database ID: `51b6f33de8ae41d5a5980669ed2c2390`
-- [View in Notion](https://www.notion.so/2ba30e8ebf3c8145a650cf234e960881)
-
 ### 4. Run Locally
 
 ```bash
@@ -117,8 +112,3 @@ Each day creates a new page under the parent containing:
 - Executive summary of the day's most interesting papers
 - Categorized highlights by research area
 - Links to individual paper entries in the database
-
-## License
-
-MIT
-
