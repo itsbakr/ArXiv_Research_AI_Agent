@@ -1,0 +1,21 @@
+# ArXiv AI Research Agent Dependencies
+
+# ArXiv API client
+arxiv==2.1.0
+
+# Anthropic Claude API
+anthropic>=0.40.0
+
+# HTTP requests with retry logic
+requests==2.31.0
+tenacity==8.2.3
+
+# Environment variables
+python-dotenv==1.0.0
+
+# Date/time handling
+python-dateutil==2.8.2
+
+# For structured data handling
+pydantic==2.5.0
+

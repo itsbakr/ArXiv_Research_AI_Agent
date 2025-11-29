@@ -1,0 +1,58 @@
+name: Daily ArXiv Research Digest
+
+on:
+  # Run every weekday at 9 PM PT (5 AM UTC next day)
+  # Note: Cron runs on Tue-Sat UTC to cover Mon-Fri PT evenings
+  schedule:
+    - cron: '0 5 * * 2-6'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      days_back:
+        description: 'Number of days to look back for papers'
+        required: false
+        default: '1'
+      max_papers:
+        description: 'Maximum number of papers to analyze'
+        required: false
+        default: '15'
+
+jobs:
+  fetch-and-analyze:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          cd arxiv-agent
+          pip install -r requirements.txt
+      
+      - name: Run ArXiv Agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          NOTION_PARENT_PAGE_ID: ${{ secrets.NOTION_PARENT_PAGE_ID }}
+        run: |
+          cd arxiv-agent
+          python -m src.main --days=${{ github.event.inputs.days_back || '1' }} --max=${{ github.event.inputs.max_papers || '15' }}
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "## ArXiv Research Digest Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The daily research digest has been generated and saved to Notion." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Run Time:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+
