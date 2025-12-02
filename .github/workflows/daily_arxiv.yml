@@ -33,9 +33,7 @@ jobs:
           cache: 'pip'
       
       - name: Install dependencies
-        run: |
-          cd arxiv-agent
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
       
       - name: Run ArXiv Agent
         env:
@@ -43,9 +41,7 @@ jobs:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
           NOTION_PARENT_PAGE_ID: ${{ secrets.NOTION_PARENT_PAGE_ID }}
-        run: |
-          cd arxiv-agent
-          python -m src.main --days=${{ github.event.inputs.days_back || '1' }} --max=${{ github.event.inputs.max_papers || '15' }}
+        run: python -m src.main --days=${{ github.event.inputs.days_back || '1' }} --max=${{ github.event.inputs.max_papers || '15' }}
       
       - name: Summary
         if: always()
